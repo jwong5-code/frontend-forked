@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Initial Restoration -->
+    <h1 class="d1">Client Edit</h1>   
+    <img src="Logo.jpg" width="200px" height="200px" />
+    <p></p>
+    <div id="clientSearchSection">
+      <label for="searchFirstName">First Name:</label>
+      <input id = "searchFirstName" type="text">
+      <br>
+      <label for="searchLastName">Last Name:</label>
+      <input id = "searchLastName" type="text">
+      <br>
+      <label for="searchId">Search ID:</label>
+      <input id = "searchId" type="number">
+      <br>
+      <button id="searchClientButton" class="button-link center-text">Search</button>
+      <p></p>
+      <ul id="clientInfo"></ul>
+    </div>
+
+<!-- Pops up after client found and clicked-->
+      <div id="clientProfileSection" style="display:none;" >
+        <h2 class="hiddentext" id="patientName"></h2> 
+          <label for="id">Edit ID:</label>
+          <input type="number" id="id" name="id">
+          <br>
+          <label for="firstname">Edit First Name:</label>
+          <input type="text" id="firstname">
+          <br>
+          <label for="lastname">Edit Last Name:</label>
+          <input type="text" id="lastname">
+          <br>
+          <label for="image" id="labelImage" style="display:none;">Upload Image:</label>
+          <input type="file" id="image" name="image" style="display:none;">
+          <br>
+          <button id="updateProfileButton">Save Changes</button>
+          <button type="button" id="deleteProfileButton" style="display:none;" onclick="deleteProfile()">Delete Profile</button>
+
+          
+        <button onclick="goBack()" class="button-link center-text">Back to Search</button>
+        <div id="clientPhotos"></div>
+      </div>
+
+    <div id="customModal" class="modal">
+      <div class="modal-content">
+          <p id="modalMessage">What would you like to do with the image?</p>
+          <button id="openButton">Open</button>
+          <button id="deleteButton">Delete</button>
+          <button id="cancelButton">Cancel</button>
+      </div>
+  </div>
+
+    
+<!-- /<p id="Error" style="display:none;">Error adding client.</p> -->
+  <!--<a href="checklist.html" class="button-link center-text">Client List</a> -->
+  <a href="clients.html" class="button-link center-text">Add Client</a>
+  <a href="index.html" class="button-link center-text">Return</a>
+  <p></p>
+  
+  
+  <script src="draft.js"></script>
+  </body>
+</html>

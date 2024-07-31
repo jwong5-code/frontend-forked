@@ -1,0 +1,44 @@
+my-frontend-project/
+├── public/
+│   ├── index.html
+│   ├── page1.html
+│   ├── page2.html
+│   ├── page3.html
+│   ├── styles.css
+│   └── scripts.js
+├── src/
+│   ├── index.js
+├── package.json
+└── server.js
+
+  try {
+        console.log('Sending request to server...');
+        const response = await fetch(`http://localhost:5000/patients?firstname=${encodeURIComponent(searchFirstName)}&lastname=${encodeURIComponent(searchLastName)}&id=${encodeURIComponent(searchId)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const clients = await response.json();
+          console.log('Received response:', clients); //evil
+          if (clients.length > 0) {
+            clients.forEach(client => {
+              const li = document.createElement("li");
+              li.textContent = `ID: ${client.id}, Name: ${client.firstname} ${client.lastname}`;
+              clientList.appendChild(li);
+            });
+          } else {
+            clientList.innerHTML = "<p>No clients found.</p>";
+          }
+        } else {
+          alert("Error searching for clients.");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert("Error searching for clients.");
+      }
+    });
+  }
+}); '''

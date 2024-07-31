@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Add New Client</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 class="d1">Add New Client</h1>
+    <h2>Name can be the same, but NOT the ID</h2>
+
+    <img src="Logo.jpg" width="200px" height="200px" />
+    <p></p>
+    <input id = "firstname" type="text" placeholder="Enter first name here" />
+    <input id = "lastname" type="text" placeholder="Enter last name here" />
+    <input id = "clientId" type="number" placeholder="Enter ID" class="text-link" />
+    <!--<a class="button-link center-text">Add</a> -->
+    <button id="addClientButton" class="button-link center-text" style="padding: 10px 20px; margin: 10px 0; border: none; border-radius: 5px;">Add</button>
+    <p id="successMessage" style="display:none;">Client added successfully!</p>
+    <p id="failedMessage" style="display:none;">Please fill in all fields.</p>
+    <p id="Error" style="display:none;">Error adding client.</p>
+    <!--<a href="checklist.html" class="button-link center-text">Client List</a> -->
+    <a href="profile.html" class="button-link center-text">Edit Clients</a>
+    <a href="index.html" class="button-link center-text">Return</a>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
