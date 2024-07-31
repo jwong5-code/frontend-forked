@@ -10,7 +10,8 @@
   <body>
     <!-- Initial Restoration -->
     <h1 class="d1">Client Edit</h1>   
-    <img src="Logo.jpg" width="200px" height="200px" />
+    <img src="Logo.jpg" width="200px" height="200px" alt="Company Logo" />
+
     <p></p>
     <div id="clientSearchSection">
       <label for="searchFirstName">First Name:</label>
@@ -43,7 +44,7 @@
           <input type="file" id="image" name="image" style="display:none;">
           <br>
           <button id="updateProfileButton">Save Changes</button>
-          <button type="button" id="deleteProfileButton" style="display:none;" onclick="deleteProfile()">Delete Profile</button>
+          <button id="deleteProfileButton" onclick="deleteProfile()" >Delete Profile</button>
 
           
         <button onclick="goBack()" class="button-link center-text">Back to Search</button>

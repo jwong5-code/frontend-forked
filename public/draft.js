@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchClientButton = document.getElementById("searchClientButton");
     const clientList = document.getElementById("clientInfo");
     const updateProfileButton = document.getElementById("updateProfileButton");
+    const deleteProfileButton = document.getElementById("deleteProfileButton");
     const clientPhotos = document.getElementById("clientPictures");
   
     if (!searchClientButton) {
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!clientList) {
       console.error('clientInfo element not found');
     }
+    
     if (updateProfileButton) {
         updateProfileButton.addEventListener("click", async () => {
         const clientId = document.getElementById('id').value;
@@ -119,7 +121,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
+  async function deleteProfile() {
+    const clientId = document.getElementById('id').value;
+    if (confirm('Are you sure you want to delete this profile?')) {
+        try {
+            const response = await fetch(`http://localhost:5000/patients/${clientId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                alert('Profile deleted successfully!');
+                goBack();
+            } else {
+                alert('Error deleting profile.');
+            }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+        }
+    }
+}
+  
   
   async function showProfileSection(clientId) {
     console.log(`Showing profile for client ID: ${clientId}`);
@@ -281,6 +301,8 @@ async function deleteImage(imageId, clientId) {
         }
     }
 }
+
+
 
 function openImage(imagePath) {
     window.open(`/${imagePath}`, '_blank');

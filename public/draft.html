@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Client Management</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Client Management</h1>
+  <img src="Logo.jpg" width="200px" height="200px" alt="Company Logo" />
+
+  
+  <!-- Client Search Section -->
+  <div id="clientSearchSection">
+    <input id="searchFirstName" type="text" placeholder="Enter first name here" />
+    <input id="searchLastName" type="text" placeholder="Enter last name here" />
+    <input id="searchId" type="number" placeholder="Enter ID"/>
+    <button id="searchClientButton" class="button-link center-text">Search</button>
+    <ul id="clientList"></ul>
+  </div>
+
+  <!-- Client Profile Section -->
+  <div id="clientProfileSection" style="display:none;">
+    <form id="profileForm">
+      <label for="id">ID:</label>
+      <input type="text" id="id" name="id" readonly>
+      <br>
+      <label for="firstname">First Name:</label>
+      <input type="text" id="firstname" name="firstname">
+      <br>
+      <label for="lastname">Last Name:</label>
+      <input type="text" id="lastname" name="lastname">
+      <br>
+      <label for="image">Upload Image:</label>
+      <input type="file" id="image" name="image">
+      <br>
+      <button type="button" onclick="updateProfile()">Save Changes</button>
+      <button type="button" onclick="deleteProfile()">Delete Profile</button>
+    </form>
+    <button onclick="goBack()">Back to Search</button>
+  </div>
+
+  <script src="draft.js"></script>
+</body>
+</html>
