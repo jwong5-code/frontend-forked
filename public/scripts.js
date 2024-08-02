@@ -1,4 +1,8 @@
 // scripts.js
+function openImage(imagePath) {
+  window.open(imagePath, '_blank'); // Make sure the imagePath is correct
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const addClientButton = document.getElementById("addClientButton");
   const searchClientButton = document.getElementById("searchClientButton");

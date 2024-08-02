@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const db = require('./src/database.js');
 const cors = require('cors');
+const multer = require('multer');
 const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
@@ -14,14 +15,22 @@ app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 const fs = require('fs');
-
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname)); // Append extension
+    },
+  });
+  const upload = multer({ storage: storage });
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)){
     fs.mkdirSync(uploadsDir);
 }
-
 
 
 app.get('/patients', (req, res) => {
@@ -90,7 +99,7 @@ app.put('/patients/:id', (req, res) => {
         if (req.files && req.files.image) {
             const image = req.files.image;
             const imagePath = `uploads/${id}_${Date.now()}_${image.name}`;
-            const imageDate = new Date().toISOString().split('T')[0];
+            const imageDate = new Date();
             const imageName = image.name;
 
             image.mv(imagePath, (err) => {
@@ -115,7 +124,21 @@ app.put('/patients/:id', (req, res) => {
 });
 
 
+app.post('/upload', upload.single('image'), (req, res) => {
+    const patientId = req.body.patientId;
+    const imagePath = `/uploads/${req.file.filename}`;
+    const imageDate = req.body.imageDate;
+    const imageName = req.file.originalname;
   
+    const sql = 'INSERT INTO images (patient_id, image_path, image_date, image_name) VALUES (?, ?, ?, ?)';
+    db.query(sql, [patientId, imagePath, imageDate, imageName], (err, result) => {
+      if (err) {
+        console.error('Error uploading image:', err);
+        return res.status(500).send('Error uploading image');
+      }
+      res.status(201).send('Image uploaded successfully');
+    });
+  });  
 
 app.delete('/patients/:id', (req, res) => {
     const { id } = req.params;
@@ -192,7 +215,7 @@ app.delete('/images/:id', (req, res) => {
         }
         if (results.length > 0) {
             const imagePath = results[0].image_path;
-            fs.unlink(imagePath, (err) => {
+            fs.unlink(path.join(__dirname, imagePath), (err) => {
                 if (err) {
                     console.error('Error deleting image file:', err);
                     return res.status(500).send('Error deleting image file');
@@ -211,6 +234,26 @@ app.delete('/images/:id', (req, res) => {
         }
     });
 });
+
+app.put('/patients/:id/images', (req, res) => {
+    const imageId = req.params.id; // Correctly parse the image ID
+    const { newName } = req.body; // Destructure newName from request body
+
+    const updateImageSql = 'UPDATE images SET image_name = ? WHERE id = ?';
+    console.log('Update SQL Query:', req.params.id, req.body);
+    console.log('Update Query Parameters:', [newName, imageId]);
+
+    db.query(updateImageSql, [newName, imageId], (err, result) => {
+        if (err) {
+            console.error('Error updating image name:', err);
+            return res.status(500).send('Error updating image name');
+        }
+
+        res.send('Image name updated successfully');
+    });
+});
+
+
 
 
 const PORT = process.env.PORT || 5000;

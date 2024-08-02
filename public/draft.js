@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Error fetching profile.");
     }
   }
-
+/*
   async function showPictures(clientId) {
     console.log(`Fetching pictures for client ID: ${clientId}`);
     try {
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 
-  
+ */ 
   function goBack() {
     document.getElementById('clientSearchSection').style.display = 'block';
     document.getElementById('clientProfileSection').style.display = 'none';
@@ -236,7 +236,8 @@ async function showPictures(clientId) {
             images.forEach(image => {
                 const link = document.createElement('a');
                 link.href = '#';
-                link.textContent = image.image_name;
+                link.textContent = image.image_name + ' ' + image.image_date;
+                link.textContext.toISOString().split('T')[0];
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     openCustomModal(image, clientId);
@@ -259,12 +260,17 @@ function openCustomModal(image, clientId) {
     modal.style.display = 'block';
 
     const openButton = document.getElementById('openButton');
+    const changeButton = document.getElementById('changeButton');
     const deleteButton = document.getElementById('deleteButton');
     const cancelButton = document.getElementById('cancelButton');
 
     openButton.onclick = () => {
         window.open(`/${image.image_path}`, '_blank');
         closeModal();
+    };
+
+    changeButton.onclick = () => {
+      changenameimage(image.id);
     };
 
     deleteButton.onclick = () => {
@@ -277,6 +283,38 @@ function openCustomModal(image, clientId) {
     };
 }
 
+async function changenameimage(imageId) {
+  const newName = prompt("Enter the new name for the image:");
+
+  if (newName) {
+      try {
+          const response = await fetch(`http://localhost:5000/patients/${imageId}/images`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ newName })
+          });
+
+          if (response.ok) {
+              alert('Image name updated successfully!');
+              closeModal();
+              // Optionally, refresh the images list or update the UI accordingly
+              const clientId = document.getElementById('id').value;
+              showPictures(clientId);
+          } else {
+              alert('Error updating image name.');
+          }
+      } catch (error) {
+          console.error('Error updating image name:', error);
+          alert('Error updating image name.');
+      }
+  } else {
+      alert('Name cannot be empty.');
+  }
+}
+
+
 function closeModal() {
     const modal = document.getElementById('customModal');
     modal.style.display = 'none';
@@ -285,7 +323,7 @@ function closeModal() {
 async function deleteImage(imageId, clientId) {
     if (confirm('Are you sure you want to delete this image?')) {
         try {
-            const response = await fetch(`http://localhost:5000/images/${imageId}`, {
+          const response = await fetch(`http://localhost:5000/images/${imageId}/name`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -305,8 +343,9 @@ async function deleteImage(imageId, clientId) {
 
 
 function openImage(imagePath) {
-    window.open(`/${imagePath}`, '_blank');
+  window.open(imagePath, '_blank'); // Make sure the imagePath is correct
 }
+
 
 
   
